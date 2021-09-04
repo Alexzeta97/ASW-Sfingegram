@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  consul:
+    image: consul
+
+  apigateway:
+    build: ./api-gateway
+    image: alexzeta/sfingegram-apigateway:compose
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "consul"
+
+  connessioni:
+    build: ./connessioni
+    image: alexzeta/sfingegram-connessioni:compose
+    depends_on:
+      - "consul"
+
+  enigmi:
+    build: ./enigmi
+    image: alexzeta/sfingegram-enigmi:compose
+    depends_on:
+      - "consul"
+
+  enigmiseguiti:
+    build: ./enigmi-seguiti
+    image: alexzeta/sfingegram-enigmiseguiti:compose
+    depends_on:
+      - "consul"
