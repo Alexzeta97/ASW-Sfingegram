@@ -23,3 +23,11 @@ server:
 #  port: ${PORT:${SERVER_PORT:0}}
   port: 8080
 
+# fa il logging dei comandi sql eseguiti 
+# spring.jpa.show-sql: true
+# disable OSIV
+spring.jpa.open-in-view: false
+spring.datasource.url: jdbc:postgresql://dbenigmiseguiti:5432/enigmiseguiti
+spring.datasource.username: postgres
+spring.datasource.password: password
+spring.jpa.hibernate.ddl-auto: create-drop

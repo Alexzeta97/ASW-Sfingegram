@@ -21,6 +21,15 @@ services:
     volumes:
       - dbenigmi:/var/lib/postgresql/data
 
+  dbenigmiseguiti:
+    image: postgres
+    environment:
+      POSTGRES_DB: enigmiseguiti
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - dbenigmiseguiti:/var/lib/postgresql/data
+
   apigateway:
     build: ./api-gateway
     image: alexzeta/sfingegram-apigateway:compose
@@ -52,3 +61,4 @@ services:
 volumes:
   dbconnessioni:
   dbenigmi:
+  dbenigmiseguiti:
