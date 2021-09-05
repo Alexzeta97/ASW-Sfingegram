@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: connessioni
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+    volumes:
+      - dbconnessioni:/var/lib/postgresql/data
 
   dbenigmi:
     image: postgres
@@ -16,6 +18,8 @@ services:
       POSTGRES_DB: enigmi
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+    volumes:
+      - dbenigmi:/var/lib/postgresql/data
 
   apigateway:
     build: ./api-gateway
@@ -44,3 +48,7 @@ services:
     image: alexzeta/sfingegram-enigmiseguiti:compose
     depends_on:
       - "consul"
+
+volumes:
+  dbconnessioni:
+  dbenigmi:
