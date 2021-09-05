@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+  consul:
+    image: consul
+
+  dbconnessioni:
+    image: postgres
+    environment:
+      POSTGRES_DB: connessioni
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  dbenigmi:
+    image: postgres
+    environment:
+      POSTGRES_DB: enigmi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  apigateway:
+    build: ./api-gateway
+    image: alexzeta/sfingegram-apigateway:compose
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "consul"
+
+  connessioni:
+    build: ./connessioni
+    image: alexzeta/sfingegram-connessioni:compose
+    depends_on:
+      - "consul"
+      - "dbconnessioni"
+
+  enigmi:
+    build: ./enigmi
+    image: alexzeta/sfingegram-enigmi:compose
+    depends_on:
+      - "consul"
+      - "dbenigmi"
+
+  enigmiseguiti:
+    build: ./enigmi-seguiti
+    image: alexzeta/sfingegram-enigmiseguiti:compose
+    depends_on:
+      - "consul"
