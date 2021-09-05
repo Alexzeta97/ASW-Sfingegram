@@ -27,3 +27,7 @@ server:
 # spring.jpa.show-sql: true
 # disable OSIV
 spring.jpa.open-in-view: false
+spring.datasource.url: jdbc:postgresql://dbenigmi:5432/enigmi
+spring.datasource.username: postgres
+spring.datasource.password: password
+spring.jpa.hibernate.ddl-auto: create-drop

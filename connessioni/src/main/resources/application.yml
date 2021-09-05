@@ -27,3 +27,7 @@ server:
 #spring.jpa.show-sql: true
 # disable OSIV
 spring.jpa.open-in-view: false
+spring.datasource.url: jdbc:postgresql://dbconnessioni:5432/connessioni
+spring.datasource.username: postgres
+spring.datasource.password: password
+spring.jpa.hibernate.ddl-auto: create-drop
