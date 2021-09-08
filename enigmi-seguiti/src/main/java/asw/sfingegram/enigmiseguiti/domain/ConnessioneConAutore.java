@@ -4,19 +4,11 @@ import javax.persistence.*;
 import lombok.*; 
 
 @Entity 
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class ConnessioneConAutore {
 
 	@Id 
-	@GeneratedValue
 	private Long id; 
 	private String utente; 
 	private String autore; 
-	
-	public ConnessioneConAutore(String utente, String autore) {
-		this(); 
-		this.utente = utente; 
-		this.autore = autore; 
-	}
-	
 }
