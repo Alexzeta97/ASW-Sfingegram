@@ -6,5 +6,6 @@ import java.util.*;
 
 public interface ConnessioniConTipiRepository extends CrudRepository<ConnessioneConTipo, Long> {
 	
+	public Collection<ConnessioneConTipo> findByTipo(String tipo);
 	public Collection<ConnessioneConTipo> findByUtente(String utente);
 }
