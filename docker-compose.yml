@@ -21,6 +21,33 @@ services:
     volumes:
       - dbenigmi:/var/lib/postgresql/data
 
+  dbenigmiseguiti:
+    image: postgres
+    environment:
+      POSTGRES_DB: enigmiseguiti
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - dbenigmiseguiti:/var/lib/postgresql/data
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  
+  kafka:
+    image: wurstmeister/kafka:latest
+    depends_on:
+      - "zookeeper"
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 10.11.1.121
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "enigmi-event-channel:4:1,connessioni-event-channel:4:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   apigateway:
     build: ./api-gateway
     image: alexzeta/sfingegram-apigateway:compose
@@ -34,6 +61,7 @@ services:
     image: alexzeta/sfingegram-connessioni:compose
     depends_on:
       - "consul"
+      - "kafka"
       - "dbconnessioni"
 
   enigmi:
@@ -41,6 +69,7 @@ services:
     image: alexzeta/sfingegram-enigmi:compose
     depends_on:
       - "consul"
+      - "kafka"
       - "dbenigmi"
 
   enigmiseguiti:
@@ -48,7 +77,9 @@ services:
     image: alexzeta/sfingegram-enigmiseguiti:compose
     depends_on:
       - "consul"
+      - "kafka"
 
 volumes:
   dbconnessioni:
   dbenigmi:
+  dbenigmiseguiti:

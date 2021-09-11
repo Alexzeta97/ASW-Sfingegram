@@ -1,12 +1,14 @@
 package asw.sfingegram.enigmiseguiti.domain;
 
+import javax.persistence.*; 
 import lombok.*; 
 
-@Data @NoArgsConstructor
+@Entity 
+@Data @NoArgsConstructor @AllArgsConstructor
 public class ConnessioneConAutore {
 
+	@Id 
 	private Long id; 
 	private String utente; 
 	private String autore; 
-	
 }

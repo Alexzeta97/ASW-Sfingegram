@@ -1,3 +1,6 @@
+include 'common-api-event'
+include 'enigmi-api-event'
+include 'connessioni-api-event'
 include 'enigmi'
 include 'connessioni'
 include 'enigmi-seguiti'
