@@ -10,51 +10,29 @@ import java.util.stream.*;
 public class EnigmiSeguitiService {
 
 	@Autowired 
-	private EnigmiRepository enigmiRepository;
-
-	@Autowired
-	private ConnessioniConAutoriRepository connessioniConAutoriRepository;
-
-	@Autowired 
-	private ConnessioniConTipiRepository connessioniConTipiRepository;
+	private EnigmiSeguitiRepository enigmiSeguitiRepository;
 
 	/* Trova gli enigmi (in formato breve) degli utenti seguiti da utente. */ 
 	public Collection<Enigma> getEnigmiSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 		
-		Collection<Enigma> enigmiDiAutoriSeguiti = getEnigmiDiAutoriSeguiti(utente);
-		Collection<Enigma> enigmiDiTipiSeguiti = getEnigmiDiTipiSeguiti(utente); 
-		enigmi.addAll(enigmiDiAutoriSeguiti); 
-		enigmi.addAll(enigmiDiTipiSeguiti); 
-		return enigmi; 
-	}
 
-	private Collection<Enigma> getEnigmiDiAutoriSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 
-		Collection<ConnessioneConAutore> connessioniConAutori = connessioniConAutoriRepository.findByUtente(utente);
-		Collection<String> autoriSeguiti = 
-			connessioniConAutori
-				.stream()
-				.map(c -> c.getAutore())
-				.collect(Collectors.toSet()); 
-		if (autoriSeguiti.size()>0) {
-			Collection<Enigma> enigmiDiAutoriSeguiti = enigmiRepository.findByAutoreIn(autoriSeguiti);
-			enigmi.addAll(enigmiDiAutoriSeguiti); 
-		}
-		return enigmi; 
-	}
+		// Recupera tutta la collezione di entità EnigmaSeguito associate all'utente.
+		Collection<EnigmaSeguito> enigmiSeguiti = enigmiSeguitiRepository.findByUtente(utente);
 
-	private Collection<Enigma> getEnigmiDiTipiSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 
-		Collection<ConnessioneConTipo> connessioniConTipi = connessioniConTipiRepository.findByUtente(utente);
-		Collection<String> tipiSeguiti = 
-			connessioniConTipi
+		// Converti la collezione recuperata in una lista di entità Enigma.
+		Collection<Enigma> enigmi =
+			enigmiSeguiti
 				.stream()
-				.map(c -> c.getTipo())
-				.collect(Collectors.toSet()); 
-		if (tipiSeguiti.size()>0) {
-			Collection<Enigma> enigmiDiTipiSeguiti = enigmiRepository.findByTipoIn(tipiSeguiti);
-			enigmi.addAll(enigmiDiTipiSeguiti); 
-		}
+				.map(
+					es -> new Enigma(
+						es.getIdEnigma(),
+						es.getAutoreEnigma(),
+						es.getTipoEnigma(),
+						es.getTitoloEnigma(),
+						es.getTestoEnigma()
+					)
+				)
+				.collect(Collectors.toSet());
+
 		return enigmi; 
 	}
 }
