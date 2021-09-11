@@ -18,6 +18,7 @@ import java.time.Duration;
 
 import java.util.logging.Logger; 
 import java.util.*; 
+import java.util.stream.*;
 
 @RestController
 public class EnigmiSeguitiController {
@@ -32,7 +33,25 @@ public class EnigmiSeguitiController {
 	public Collection<Enigma> getEnigmiSeguiti(@PathVariable String utente) {
 		Instant start = Instant.now();
 		logger.info("REST CALL: getEnigmiSeguiti " + utente); 
-		Collection<Enigma> enigmi = enigmiSeguitiService.getEnigmiSeguiti(utente); 
+
+		// Recupera tutta la collezione di entità EnigmaSeguito associate all'utente.
+		Collection<EnigmaSeguito> enigmiSeguiti = enigmiSeguitiService.getEnigmiSeguiti(utente);
+
+		// Converti la collezione recuperata in un insieme di entità Enigma.
+		Collection<Enigma> enigmi =
+			enigmiSeguiti
+				.stream()
+				.map(
+					es -> new Enigma(
+						es.getIdEnigma(),
+						es.getAutoreEnigma(),
+						es.getTipoEnigma(),
+						es.getTitoloEnigma(),
+						es.getTestoEnigma()
+					)
+				)
+				.collect(Collectors.toSet());
+
 		Duration duration = Duration.between(start, Instant.now()); 
 		logger.info("getEnigmiSeguiti " + utente + " (trovati " + enigmi.size() + " enigmi in " + duration.toMillis() + " ms): " + enigmi);
 		return enigmi; 
