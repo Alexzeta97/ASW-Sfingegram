@@ -1,5 +1,7 @@
 package asw.sfingegram.enigmi.domain;
 
+import asw.sfingegram.common.api.event.DomainEvent;
+import asw.sfingegram.enigmi.api.event.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,26 @@ public class EnigmiService {
 	@Autowired
 	private EnigmiRepository enigmiRepository;
 
+	@Autowired
+	private EnigmiEventPublisher eventPublisher;
+
+
  	public Enigma createEnigma(String autore, String tipo, String titolo, String[] testo, String[] soluzione) {
+		
+		// Crea e salva l'enigma nel database.
 		Enigma enigma = new Enigma(autore, tipo, titolo, testo, soluzione); 
 		enigma = enigmiRepository.save(enigma);
+
+		// Pubblica l'evento relativo alla creazione dell'enigma.
+		DomainEvent event = new EnigmaCreatedEvent(
+			enigma.getId(),
+			enigma.getAutore(),
+			enigma.getTipo(),
+			enigma.getTitolo(),
+			enigma.getTesto()
+		);
+		eventPublisher.publish(event);
+
 		return enigma;
 	}
 

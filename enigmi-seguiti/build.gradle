@@ -10,6 +10,12 @@ dependencyManagement {
 }
 
 dependencies {
+
+	// Eventi di dominio.
+	implementation project(":common-api-event")
+	implementation project(":enigmi-api-event")
+	implementation project(":connessioni-api-event")
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux' 
 	implementation 'org.springframework.cloud:spring-cloud-starter'
@@ -24,5 +30,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.postgresql:postgresql'
+
+	implementation 'org.springframework.kafka:spring-kafka'
 }
 
