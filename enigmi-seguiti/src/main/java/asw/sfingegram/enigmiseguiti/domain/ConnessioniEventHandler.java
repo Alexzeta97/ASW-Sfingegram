@@ -7,14 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
 
+import java.util.*; 
+
 @Service
 public class ConnessioniEventHandler {
 
-	@Autowired
-	private ConnessioniConAutoriRepository connessioniConAutoriRepository;
-
-    @Autowired
-	private ConnessioniConTipiRepository connessioniConTipiRepository;
+	@Autowired 
+	private ConnessioniService connessioniService;
 
 	private final Logger logger = Logger.getLogger(ConnessioniEventHandler.class.toString());
 
@@ -38,24 +37,18 @@ public class ConnessioniEventHandler {
 	}
 	
 	private ConnessioneConAutore connAutoreCreated(ConnessioneConAutoreCreatedEvent event) {
-		ConnessioneConAutore connessione = new ConnessioneConAutore(
+		return connessioniService.createConnessioneConAutore(
 			event.getId(),
             event.getUtente(),
 			event.getAutore()
 		);
-		connessione = connessioniConAutoriRepository.save(connessione);
-		logger.info("CREATED CONNESSIONE UTENTE-AUTORE: " + connessione);
-		return connessione;
 	}
 
     private ConnessioneConTipo connTipoCreated(ConnessioneConTipoCreatedEvent event) {
-		ConnessioneConTipo connessione = new ConnessioneConTipo(
+		return connessioniService.createConnessioneConTipo(
 			event.getId(),
             event.getUtente(),
 			event.getTipo()
 		);
-		connessione = connessioniConTipiRepository.save(connessione);
-		logger.info("CREATED CONNESSIONE UTENTE-TIPO: " + connessione);
-		return connessione;
 	}
 }

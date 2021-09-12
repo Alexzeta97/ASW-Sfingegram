@@ -2,59 +2,41 @@ package asw.sfingegram.enigmiseguiti.domain;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.logging.Logger;
 
 import java.util.*; 
-import java.util.stream.*; 
 
 @Service 
 public class EnigmiSeguitiService {
 
 	@Autowired 
-	private EnigmiRepository enigmiRepository;
+	private EnigmiSeguitiRepository enigmiSeguitiRepository;
 
-	@Autowired
-	private ConnessioniConAutoriRepository connessioniConAutoriRepository;
+	private final Logger logger = Logger.getLogger(EnigmiSeguitiService.class.toString());
 
-	@Autowired 
-	private ConnessioniConTipiRepository connessioniConTipiRepository;
 
 	/* Trova gli enigmi (in formato breve) degli utenti seguiti da utente. */ 
-	public Collection<Enigma> getEnigmiSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 		
-		Collection<Enigma> enigmiDiAutoriSeguiti = getEnigmiDiAutoriSeguiti(utente);
-		Collection<Enigma> enigmiDiTipiSeguiti = getEnigmiDiTipiSeguiti(utente); 
-		enigmi.addAll(enigmiDiAutoriSeguiti); 
-		enigmi.addAll(enigmiDiTipiSeguiti); 
-		return enigmi; 
+	public Collection<EnigmaSeguito> getEnigmiSeguiti(String utente) {
+
+		return enigmiSeguitiRepository.findByUtente(utente);
 	}
 
-	private Collection<Enigma> getEnigmiDiAutoriSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 
-		Collection<ConnessioneConAutore> connessioniConAutori = connessioniConAutoriRepository.findByUtente(utente);
-		Collection<String> autoriSeguiti = 
-			connessioniConAutori
-				.stream()
-				.map(c -> c.getAutore())
-				.collect(Collectors.toSet()); 
-		if (autoriSeguiti.size()>0) {
-			Collection<Enigma> enigmiDiAutoriSeguiti = enigmiRepository.findByAutoreIn(autoriSeguiti);
-			enigmi.addAll(enigmiDiAutoriSeguiti); 
-		}
-		return enigmi; 
-	}
 
-	private Collection<Enigma> getEnigmiDiTipiSeguiti(String utente) {
-		Collection<Enigma> enigmi = new TreeSet<>(); 
-		Collection<ConnessioneConTipo> connessioniConTipi = connessioniConTipiRepository.findByUtente(utente);
-		Collection<String> tipiSeguiti = 
-			connessioniConTipi
-				.stream()
-				.map(c -> c.getTipo())
-				.collect(Collectors.toSet()); 
-		if (tipiSeguiti.size()>0) {
-			Collection<Enigma> enigmiDiTipiSeguiti = enigmiRepository.findByTipoIn(tipiSeguiti);
-			enigmi.addAll(enigmiDiTipiSeguiti); 
-		}
-		return enigmi; 
+	// Crea un nuovo EnigmaSeguito.
+	public EnigmaSeguito createEnigmaSeguito(
+		String utente, Long idEnigma, String autoreEnigma,
+		String tipoEnigma, String titoloEnigma, String[] testoEnigma
+	) {
+		EnigmaSeguito enigmaSeguito = new EnigmaSeguito(
+			utente,
+			idEnigma,
+			autoreEnigma,
+			tipoEnigma,
+			titoloEnigma,
+			testoEnigma
+		);
+		enigmiSeguitiRepository.save(enigmaSeguito);
+		logger.info("CREATED ENIGMA SEGUITO: " + enigmaSeguito);
+		return enigmaSeguito;
 	}
 }

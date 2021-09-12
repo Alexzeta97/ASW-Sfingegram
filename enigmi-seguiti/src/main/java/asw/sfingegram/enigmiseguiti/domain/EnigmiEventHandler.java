@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
 
+import java.util.*; 
+import java.util.stream.*; 
+
 @Service
 public class EnigmiEventHandler {
 
 	@Autowired
-	private EnigmiRepository enigmiRepository;
+	private EnigmiService enigmiService;
 
 	private final Logger logger = Logger.getLogger(EnigmiEventHandler.class.toString());
 
@@ -29,15 +32,12 @@ public class EnigmiEventHandler {
 	}
 	
 	private Enigma enigmaCreated(EnigmaCreatedEvent event) {
-		Enigma enigma = new Enigma(
+		return enigmiService.createEnigma(
 			event.getId(),
 			event.getAutore(),
 			event.getTipo(),
 			event.getTitolo(),
 			event.getTesto()
 		);
-		enigma = enigmiRepository.save(enigma);
-		logger.info("CREATED ENIGMA: " + enigma);
-		return enigma;
 	}
 }
