@@ -7,5 +7,4 @@ import java.util.*;
 public interface ConnessioniConAutoriRepository extends CrudRepository<ConnessioneConAutore, Long> {
 	
 	public Collection<ConnessioneConAutore> findByAutore(String autore);
-	public Collection<ConnessioneConAutore> findByUtente(String utente);
 }
