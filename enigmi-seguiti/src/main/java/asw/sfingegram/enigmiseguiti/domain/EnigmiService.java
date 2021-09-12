@@ -26,7 +26,7 @@ public class EnigmiService {
 		Enigma enigma = new Enigma(id, autore, tipo, titolo, testo);
 		enigma = enigmiRepository.save(enigma);
 		logger.info("CREATED ENIGMA: " + enigma);
-		updateEnigmiSeguiti(enigma);
+		enigmiSeguitiService.updateAfterCreatedEnigma(enigma);
 		return enigma;
 	}
 
@@ -42,27 +42,9 @@ public class EnigmiService {
 	}
 
 
-	// Aggiorna la collezione di entità EnigmaSeguito in seguito all'aggiunta
-	// di un Enigma.
-	private void updateEnigmiSeguiti(Enigma enigma) {
-
-		// Aggiungi un'istanza di EnigmaSeguito alla collezione per ogni utente
-		// interessato all'enigma.
-		for (String utente : getUtentiInteressatiAdEnigma(enigma)) {
-			enigmiSeguitiService.createEnigmaSeguito(
-				utente,
-				enigma.getId(),
-				enigma.getAutore(),
-				enigma.getTipo(),
-				enigma.getTitolo(),
-				enigma.getTesto()
-			);
-		}
-	}
-
-
 	// Recupera la lista di tutti gli utenti interessati ad un enigma.
-	private Collection<String> getUtentiInteressatiAdEnigma(Enigma enigma) {
+	// Un utente è interessato ad un enigma se ne segue l'autore o il tipo.
+	public Collection<String> getUtentiInteressatiAdEnigma(Enigma enigma) {
 
 		// Recupera la lista di utenti connessi con l'autore dell'enigma.
 		Collection<String> utentiConnessiConAutore = connessioniService.getUtentiConnessiConAutore(enigma.getAutore());
