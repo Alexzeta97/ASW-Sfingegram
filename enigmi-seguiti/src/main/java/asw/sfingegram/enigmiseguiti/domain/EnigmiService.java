@@ -33,8 +33,8 @@ public class EnigmiService {
 		return enigmiRepository.findByAutore(autore);
 	}
 
-	// Trova tutti gli enigmi di un certo tipo.
-	public Collection<Enigma> findByTipo(String tipo) {
-		return enigmiRepository.findByTipo(tipo);
+	// Trova tutti gli enigmi il cui tipo inizia con una certa stringa.
+	public Collection<Enigma> findByTipoStartingWith(String tipo) {
+		return enigmiRepository.findByTipoStartingWith(tipo);
 	}
 }

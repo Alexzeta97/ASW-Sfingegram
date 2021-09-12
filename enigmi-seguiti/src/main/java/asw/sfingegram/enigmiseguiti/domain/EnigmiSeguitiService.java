@@ -56,7 +56,7 @@ public class EnigmiSeguitiService {
 	// Aggiorna la collezione di entità EnigmaSeguito in seguito all'aggiunta di
 	// una nuova connessione utente-tipo.
 	public void updateEnigmiSeguiti(ConnessioneConTipo connTipo) {
-		createEnigmiSeguiti(connTipo.getUtente(), enigmiService.findByTipo(connTipo.getTipo()));
+		createEnigmiSeguiti(connTipo.getUtente(), enigmiService.findByTipoStartingWith(connTipo.getTipo()));
 	}
 
 
