@@ -22,8 +22,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "bento/ubuntu-20.04"
     # config.vm.box_url = "https://app.vagrantup.com/bento/boxes/ubuntu-20.04"
 
-    # folder per il progetto Sfingegram (/home/asw/project)
-    config.vm.synced_folder "../../", "/home/asw/project", :mount_options => ["dmode=777", "fmode=777"]
+    # folder per il progetto Sfingegram (/home/asw/sfingegram)
+    config.vm.synced_folder "../../", "/home/asw/sfingegram", :mount_options => ["dmode=777", "fmode=777"]
 
     # folder per le risorse condivise per gli ambienti Asw (/home/asw/shared/resources e /home/asw/shared/scripts) 
     config.vm.synced_folder "../shared/", "/home/asw/shared", :mount_options => ["dmode=777", "fmode=777"]
@@ -79,8 +79,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		
 		node.vm.provision :shell, :inline => ASW_SCRIPTS + "configure-workstation-hosts.sh"
 
-		# crea un link simbolico alla cartella dei progetti asw nella cartella dell'utente di default 
-        node.vm.provision :shell, :inline => 'ln -s /home/asw/project project'
+		# crea un link simbolico alla cartella del progetto Sfingegram nella cartella dell'utente di default 
+        node.vm.provision :shell, :inline => 'ln -s /home/asw/sfingegram sfingegram'
 		
         node.vm.provision :shell, 
             inline: "echo  'configurazione nodo workstation completata'"
