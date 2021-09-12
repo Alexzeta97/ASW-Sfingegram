@@ -1,22 +1,13 @@
 # Workstation 
 
-Questo � un ulteriore ambiente di esecuzione pensato per la compilazione dei progetti, 
-nonch� per l'esecuzione di applicazioni Java distribuite, 
-alternativo a *developer*, con le seguenti differenze: 
+Questo è un ambiente di esecuzione molto simile a quello che si può trovare sul
+[Repository Ufficiale del Corso](https://github.com/aswroma3/asw) e che ho modificato
+per correggere alcuni errori e per adattarlo meglio a questo specifico progetto.
+Si tratta di un ambiente di esecuzione composto da una sola macchina virtuale
+**workstation**, contenente tutto il necessario per compilare ed eseguire l'applicazione
+Sfingegram.
 
-* ha una configurazione pi� potente in termini di memoria e processore, 
-  per consentire anche l'esecuzione concorrente di molteplici applicazioni
-  
-* oltre al software di sviluppo per *Java* ha anche *Docker* 
-  (utile, per esempio, se si vuole eseguire qualcosa in un contenitore)
-  
-Per questo, richiede sul sistema host una quantit� di risorse maggiori che non l'ambiente *developer*. 
-
-E' composto da una sola macchina virtuale **workstation**. 
-
-## Descrizione delle macchine virtuali 
-
-### workstation
+## Descrizione della macchina virtuale **workstation**
 
 La macchina virtuale **workstation** ha il seguente software 
 
@@ -35,13 +26,11 @@ La macchina virtuale **workstation** ha il seguente software
 Configurazione di rete 
 
 * Indirizzo IP: 10.11.1.121 
-  <!-- (come *developer*) --> 
 
-* Porte pubblicate sull'host: 8080 -> 8080 (http) (come *developer*) 
-  <!-- , nonch� 9092 -> 9092 (Kafka), 5432 -> 5432 (Postgres) -->
+* Porte pubblicate sull'host: 8080 -> 8080 (http)
 
 Hardware (virtuale) 
 
-* Memoria: 2048 MB (2 GB) --> 4096 MB (4.0 GB) 
+* Memoria: 4096 MB (4.0 GB) 
 
-* Virtual CPU: 2 --> 4 
+* Virtual CPU: 4 
