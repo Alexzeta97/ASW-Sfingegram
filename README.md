@@ -150,3 +150,10 @@ Per semplicità, tutte le repliche di un certo servizio condividono la stessa ba
 
 Oltre a tutti i Dockerfile e al file di configurazione per Docker Compose, ho aggiunto anche un ambiente virtuale Vagrant per la compilazione e l'esecuzione dell'applicazione.
 Tale ambiente è fondamentalmente l'ambiente *workstation* già presente nel repository ufficiale del corso, a cui ho apportato alcune modifiche per risolvere alcuni problemi e adattarlo a questo specifico progetto.
+
+
+## Note aggiuntive
+Di seguito sono riportate alcune note aggiuntive:
+*  nei file di configurazione dei servizi *enigmi*, *connessioni* ed *enigmi-seguiti* ho impostato la proprietà `spring.jpa.hibernate.ddl-auto` al valore `create-drop`.
+Questo significa che ogni ad ogni avvio dell'applicazione il contenuto di tutti i database viene distrutto e ricreato, causando la perdita di tutti i dati precedentemente inseriti.
+Ciò è stato fatto per rendere più semplice la verifica dell'applicazione, ma tale proprietà andrebbe chiaramente modificata per un eventuale rilascio in produzione.
