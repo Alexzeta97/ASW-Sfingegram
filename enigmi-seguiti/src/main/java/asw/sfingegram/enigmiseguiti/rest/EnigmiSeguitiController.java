@@ -38,23 +38,28 @@ public class EnigmiSeguitiController {
 		Collection<EnigmaSeguito> enigmiSeguiti = enigmiSeguitiService.getEnigmiSeguiti(utente);
 
 		// Converti la collezione recuperata in un insieme di entità Enigma.
-		Collection<Enigma> enigmi =
-			enigmiSeguiti
-				.stream()
-				.map(
-					es -> new Enigma(
-						es.getIdEnigma(),
-						es.getAutoreEnigma(),
-						es.getTipoEnigma(),
-						es.getTitoloEnigma(),
-						es.getTestoEnigma()
-					)
-				)
-				.collect(Collectors.toSet());
+		Collection<Enigma> enigmi = enigmiSeguitiToEnigmi(enigmiSeguiti);
 
 		Duration duration = Duration.between(start, Instant.now()); 
 		logger.info("getEnigmiSeguiti " + utente + " (trovati " + enigmi.size() + " enigmi in " + duration.toMillis() + " ms): " + enigmi);
 		return enigmi; 
 	}
-	
+
+
+	// Converti una collezione di entità EnigmaSeguito in una collezione di entità Enigma.
+	private Collection<Enigma> enigmiSeguitiToEnigmi(Collection<EnigmaSeguito> enigmiSeguiti) {
+		return
+			enigmiSeguiti
+			.stream()
+			.map(
+				es -> new Enigma(
+					es.getIdEnigma(),
+					es.getAutoreEnigma(),
+					es.getTipoEnigma(),
+					es.getTitoloEnigma(),
+					es.getTestoEnigma()
+				)
+			)
+			.collect(Collectors.toSet());
+	}
 }
