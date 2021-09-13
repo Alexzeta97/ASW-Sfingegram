@@ -47,6 +47,6 @@ public class ConnessioniService {
 
 	// Recupera la lista di tutte le connessioni relative ad un certo tipo di enigma.
 	public Collection<ConnessioneConTipo> getConnessioniConTipo(String tipo) {
-		return connessioniConTipiRepository.findByTipo(tipo);
+		return connessioniConTipiRepository.findByTipoIsPrefixOf(tipo);
 	}
 }
