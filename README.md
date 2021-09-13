@@ -56,7 +56,11 @@ Per compilare questo progetto:
 
 Per eseguire questo progetto: 
 
-* per avviare l'applicazione *Sfingegram*, eseguire lo script `run-sfingegram.sh` 
+* per avviare l'applicazione *Sfingegram*, eseguire uno tra i seguenti script:
+
+  * `run-sfingegram-single-istance.sh` per mandare in esecuzione una sola istanza di ogni servizio.
+
+  * `run-sfingegram-multiple-istances.sh` per mandare in esecuzione più istanze di alcuni servizi.
 
 * per inizializzare le basi di dati con dei dati di esempio, eseguire gli script `do-init-enigmi.sh` e `do-init-connessioni.sh` 
 
@@ -139,6 +143,10 @@ Il servizio *enigmi-seguiti* è iscritto ad entrambi i canali e alla ricezione d
 ### Rilascio
 L'applicazione è rilasciata come composizione di container Docker con Docker Compose.
 Tutti i servizi, sia funzionali (*api-gateway*, *enigmi*, *connessioni*, *enigmi-seguiti*) che infrastrutturali (Consul, Apache Kafka, Zookeeper e le basi di dati PostgreSQL) sono eseguiti all'interno di un proprio container Docker dedicato.
+
+Come descritto nella sezione relativa all'esecuzione dell'applicazione, è possibile mandare in esecuzione più istanze di alcuni servizi.
+In particolare, avviando l'applicazione eseguendo lo script `run-sfingegram-multiple-istances.sh` vengono lanciate due repliche per i servizi *enigmi* e *connessioni* e tre repliche per il servizio *enigmi-seguiti*.
+Per semplicità, tutte le repliche di un certo servizio condividono la stessa base di dati PostgreSQL che memorizza le informazioni relative a quel servizio.
 
 Oltre a tutti i Dockerfile e al file di configurazione per Docker Compose, ho aggiunto anche un ambiente virtuale Vagrant per la compilazione e l'esecuzione dell'applicazione.
 Tale ambiente è fondamentalmente l'ambiente *workstation* già presente nel repository ufficiale del corso, a cui ho apportato alcune modifiche per risolvere alcuni problemi e adattarlo a questo specifico progetto.
