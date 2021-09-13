@@ -75,6 +75,7 @@ services:
     depends_on:
       - "consul"
       - "kafka"
+      - "dbenigmiseguiti"
 
 volumes:
   dbconnessioni:
