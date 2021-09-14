@@ -21,7 +21,7 @@ public class ConnessioniEventPublisherImpl implements ConnessioniEventPublisher 
     @Autowired
     private KafkaTemplate<String, DomainEvent> template;
 
-	private String channel = ConnessioniEventChannel.channel; 
+    private String channel = ConnessioniEventChannel.channel;
 
     @Override
     public void publish(DomainEvent event) {
