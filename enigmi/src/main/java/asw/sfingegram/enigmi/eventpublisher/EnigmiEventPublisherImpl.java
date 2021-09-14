@@ -21,7 +21,7 @@ public class EnigmiEventPublisherImpl implements EnigmiEventPublisher {
     @Autowired
     private KafkaTemplate<String, DomainEvent> template;
 
-	private String channel = EnigmiEventChannel.channel; 
+    private String channel = EnigmiEventChannel.channel;
 
     @Override
     public void publish(DomainEvent event) {

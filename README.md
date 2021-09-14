@@ -97,7 +97,7 @@ Alla fine, l'applicazione può essere arrestata eseguendo lo script `stop-sfinge
 ## Utilizzo dell'ambiente virtuale *workstation*
 Opzionalmente, è possibile eseguire i precedenti passi di compilazione ed esecuzione all'interno dell'ambiente virtuale Vagrant *workstation* (molto simile a quello che si può trovare sul [Repository Ufficiale del Corso](https://github.com/aswroma3/asw)) fornito nel repository insieme all'applicazione, seguendo i passi seguenti:
 
-* posizionarsi nella cartella `environments/workstation` (ad esempio eseguendo il comando `cd environments/workstation` da terminale).
+* posizionarsi nella cartella `environments/workstation`.
 
 * eseguire il comando `vagrant up` per creare e avviare l'ambiente, costituito da un'unica macchina virtuale.
 
@@ -111,7 +111,7 @@ Alla fine, è possibile arrestare la macchina virtuale con il comando `vagrant h
 
 
 ## Descrizione delle attività svolte
-Di seguito vengono descritte tutte le attività svolte.
+Di seguito vengono descritte tutte le attività svolte e le tecnologie utilizzate.
 
 ### Tecnologie utilizzate
 Questo è un elenco delle principali tecnologie utilizzate:
@@ -138,22 +138,22 @@ Analizziamo le principali differenze con l'architettura iniziale:
   * *enigmi-event-channel*: canale utilizzato dal servizio *enigmi* per notificare eventi quali la creazione di un nuovo enigma.
   * *connessioni-event-channel*: canale utilizzato dal servizio *connessioni* per notificare eventi quali la creazione di una nuova connessione utente-autore o utente-tipo.
 
-Il servizio *enigmi-seguiti* è iscritto ad entrambi i canali e alla ricezione di questi eventi aggiorna la propria base di dati (compresa la tabella *enigmiseguiti*).
+Il servizio *enigmi-seguiti* è iscritto ad entrambi i canali e alla ricezione di questi eventi reagisce aggiornando la propria base di dati (compresa la tabella *enigmiseguiti*).
 
 ### Rilascio
 L'applicazione è rilasciata come composizione di container Docker con Docker Compose.
-Tutti i servizi, sia funzionali (*api-gateway*, *enigmi*, *connessioni*, *enigmi-seguiti*) che infrastrutturali (Consul, Apache Kafka, Zookeeper e le basi di dati PostgreSQL) sono eseguiti all'interno di un proprio container Docker dedicato.
+Tutti i servizi, sia applicativi (*api-gateway*, *enigmi*, *connessioni*, *enigmi-seguiti*) che infrastrutturali (Consul, Apache Kafka, Zookeeper e le basi di dati PostgreSQL) sono eseguiti all'interno di un proprio container Docker dedicato.
 
 Come descritto nella sezione relativa all'esecuzione dell'applicazione, è possibile mandare in esecuzione più istanze di alcuni servizi.
 In particolare, avviando l'applicazione eseguendo lo script `run-sfingegram-multiple-istances.sh` vengono lanciate due repliche per i servizi *enigmi* e *connessioni* e tre repliche per il servizio *enigmi-seguiti*.
-Per semplicità, tutte le repliche di un certo servizio condividono la stessa base di dati PostgreSQL che memorizza le informazioni relative a quel servizio.
+Per semplicità, le basi di dati non sono replicate: tutte le repliche di un certo servizio condividono la stessa base di dati PostgreSQL che memorizza le informazioni relative a quel servizio.
 
 Oltre a tutti i Dockerfile e al file di configurazione per Docker Compose, ho aggiunto anche un ambiente virtuale Vagrant per la compilazione e l'esecuzione dell'applicazione.
-Tale ambiente è fondamentalmente l'ambiente *workstation* già presente nel repository ufficiale del corso, a cui ho apportato alcune modifiche per risolvere alcuni problemi e adattarlo a questo specifico progetto.
+Tale ambiente è fondamentalmente l'ambiente *workstation* già presente nel repository ufficiale del corso, a cui ho apportato alcune modifiche per risolvere alcuni problemi e per adattarlo a questo specifico progetto.
 
 
 ## Note aggiuntive
 Di seguito sono riportate alcune note aggiuntive:
 *  nei file di configurazione dei servizi *enigmi*, *connessioni* ed *enigmi-seguiti* ho impostato la proprietà `spring.jpa.hibernate.ddl-auto` al valore `create-drop`.
-Questo significa che ogni ad ogni avvio dell'applicazione il contenuto di tutti i database viene distrutto e ricreato, causando la perdita di tutti i dati precedentemente inseriti.
+Questo significa che ad ogni avvio dell'applicazione lo schema di tutti i database viene distrutto e ricreato da zero, causando la perdita di tutti i dati precedentemente inseriti.
 Ciò è stato fatto per rendere più semplice la verifica dell'applicazione, ma tale proprietà andrebbe chiaramente modificata per un eventuale rilascio in produzione.
