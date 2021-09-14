@@ -155,5 +155,5 @@ Tale ambiente è fondamentalmente l'ambiente *workstation* già presente nel rep
 ## Note aggiuntive
 Di seguito sono riportate alcune note aggiuntive:
 *  nei file di configurazione dei servizi *enigmi*, *connessioni* ed *enigmi-seguiti* ho impostato la proprietà `spring.jpa.hibernate.ddl-auto` al valore `create-drop`.
-Questo significa che ad ogni avvio dell'applicazione il contenuto di tutti i database viene distrutto e ricreato, causando la perdita di tutti i dati precedentemente inseriti.
+Questo significa che ad ogni avvio dell'applicazione lo schema di tutti i database viene distrutto e ricreato da zero, causando la perdita di tutti i dati precedentemente inseriti.
 Ciò è stato fatto per rendere più semplice la verifica dell'applicazione, ma tale proprietà andrebbe chiaramente modificata per un eventuale rilascio in produzione.
